@@ -1,3 +1,1 @@
-## Data Science Project Template
-
-You can use this template to structure your Python data science projects. It is based on [Cookie Cutter Data Science](https://drivendata.github.io/cookiecutter-data-science/).
+Restructured gyroscope and accelerometer data from a fitness watch, visualized and analyzed it to detect outliers using methods such as Local Outlier Factor, Chauvenet’s Criterion, and Interquartile Range. Then applied Principal Component Analysis, clustering, and sum of squares to identify key data features and create four feature sets for predictive modeling. Identified the top 10 predictive features, trained and tested a machine learning model achieving 99% accuracy in identifying barbell movements, and developed a function to identify workout repetitions provided raw sensor data.
