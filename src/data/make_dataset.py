@@ -1,23 +1,16 @@
 import pandas as pd
 from glob import glob
 
-# --------------------------------------------------------------
 # Read single CSV file
-# --------------------------------------------------------------
 single_file_acc = pd.read_csv("../../data/raw/MetaMotion/A-bench-heavy2-rpe8_MetaWear_2019-01-11T16.10.08.270_C42732BE255C_Accelerometer_12.500Hz_1.4.4.csv")
 
 single_file_gyr = pd.read_csv("../../data/raw/MetaMotion/A-bench-heavy2-rpe8_MetaWear_2019-01-11T16.10.08.270_C42732BE255C_Gyroscope_25.000Hz_1.4.4.csv")
-# --------------------------------------------------------------
-# List all data in data/raw/MetaMotion
-# --------------------------------------------------------------
 
+# List all data in data/raw/MetaMotion
 files = glob("../../data/raw/MetaMotion/*.csv")
 len(files)
 
-# --------------------------------------------------------------
 # Extract features from filename
-# --------------------------------------------------------------
-
 data_path = "../../data/raw/MetaMotion\\"
 f = files[2]
 
@@ -30,10 +23,7 @@ df["participant"] = participant
 df["label"] = label
 df["category"] = category
 
-# --------------------------------------------------------------
 # Read all files
-# --------------------------------------------------------------
-
 acc_df = pd.DataFrame()
 gyr_df = pd.DataFrame()
 
@@ -60,10 +50,7 @@ for f in files:
         gyr_df = pd.concat([gyr_df, df])
 
 
-# --------------------------------------------------------------
 # Working with datetimes
-# --------------------------------------------------------------
-
 acc_df.info()
 pd.to_datetime(df["epoch (ms)"], unit="ms")
 pd.to_datetime(df["time (01:00)"])
@@ -79,9 +66,7 @@ del gyr_df["epoch (ms)"]
 del gyr_df["time (01:00)"]
 del gyr_df["elapsed (s)"]
 
-# --------------------------------------------------------------
 # Turn into function
-# --------------------------------------------------------------
 files = glob("../../data/raw/MetaMotion/*.csv")
 
 def read_data_from_files(files):
@@ -126,10 +111,7 @@ def read_data_from_files(files):
 
 acc_df, gyr_df = read_data_from_files(files)
 
-# --------------------------------------------------------------
 # Merging datasets
-# --------------------------------------------------------------
-
 data_merged = pd.concat([acc_df.iloc[:,:3], gyr_df], axis=1)
 data_merged.columns = [
     "acc_x",
@@ -143,10 +125,8 @@ data_merged.columns = [
     "category",
     "set"
 ]
-# --------------------------------------------------------------
-# Resample data (frequency conversion)
-# --------------------------------------------------------------
 
+# Resample data (frequency conversion)
 # Accelerometer:    12.500HZ
 # Gyroscope:        25.000Hz
 
@@ -169,8 +149,6 @@ data_resampled = pd.concat([df.resample(rule="200ms").apply(sampling).dropna() f
 
 data_resampled["set"] = data_resampled["set"].astype("int")
 
-# --------------------------------------------------------------
-# Export dataset
-# --------------------------------------------------------------
 
+# Export dataset
 data_resampled.to_pickle("../../data/interim/data_processed.pkl")
