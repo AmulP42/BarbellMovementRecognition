@@ -253,9 +253,7 @@ plt.xlabel("Predicted label")
 plt.grid(False)
 plt.show()
 
-# --------------------------------------------------------------
 # Try a simpler model with the selected features
-# --------------------------------------------------------------
 
 (class_train_y,
 class_test_y,
